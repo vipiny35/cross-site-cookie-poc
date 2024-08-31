@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Site 2</title>
+</head>
+
+<body>
+	<h1>Site 2</h1>
+	<button onclick="callApi()">Call API</button>
+	<button onclick="clearCookie()">Clear Cookie</button>
+
+	<pre id="response"></pre>
+
+	<script>
+		// Function to call the API and get the data
+		function callApi() {
+			fetch('http://localhost:3000/?action=increment', {
+				method: 'GET',
+				credentials: 'include'  // Ensure cookies are sent
+			})
+				.then(response => response.json())
+				.then(data => {
+					// Append response to the pre tag with id response
+					document.getElementById('response').innerHTML = JSON.stringify(data, null, 2);
+					console.log('Site 2 API Response:', data);
+				});
+		}
+
+		// Function to clear the cookie
+		function clearCookie() {
+			fetch('http://localhost:3000/clear', {
+				method: 'GET',
+				credentials: 'include'  // Ensure cookies are sent
+			})
+				.then(response => response.json())
+				.then(data => {
+					// Append response to the pre tag with id response
+					document.getElementById('response').innerHTML = JSON.stringify(data, null, 2);
+					console.log('Cookie cleared:', data);
+				});
+		}
+
+		// Automatically call the API to get the data without incrementing the cookie
+		window.onload = function () {
+			fetch('http://localhost:3000/', {
+				method: 'GET',
+				credentials: 'include'  // Ensure cookies are sent
+			})
+				.then(response => response.json())
+				.then(data => {
+					// Append response to the pre tag with id response
+					document.getElementById('response').innerHTML = JSON.stringify(data, null, 2);
+					console.log('Initial API Response:', data);
+				});
+		};
+	</script>
+</body>
+
+</html>
